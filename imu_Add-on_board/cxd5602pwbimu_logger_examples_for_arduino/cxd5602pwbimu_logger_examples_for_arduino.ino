@@ -43,11 +43,17 @@ static int drop_50msdata(int fd, int samprate)
 static int log2uart(cxd5602pwbimu_data_t *dat, int num)
 {
   int i;
+  char log_text[128];
+
   for (i = 0; i < num; i++)
     {
-      printf("%08lx,%f,%f,%f,%f,%f,%f,%f\n", dat[i].timestamp,
-              dat[i].temp, dat[i].gx, dat[i].gy, dat[i].gz,
-                           dat[i].ax, dat[i].ay, dat[i].az);
+      snprintf(log_text,
+              sizeof(log_text),
+              "temp:%f,gx:%f,gy:%f,gz:%f,ax:%f,ay:%f,az:%f\n",
+              dat[i].temp, dat[i].gx, dat[i].gy, dat[i].gz, dat[i].ax, dat[i].ay, dat[i].az);
+
+      printf(log_text);
+      delay(500);
     }
 
   return 0;
